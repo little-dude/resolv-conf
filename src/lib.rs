@@ -22,7 +22,7 @@ pub enum Network {
 /// Encompasses the nameserver configuration
 ///
 /// Currently the options and defaults match those of linux/glibc
-#[derive(Clone, Debug)]
+#[derive(Default, Clone, Debug)]
 pub struct Config {
     /// List of nameservers
     pub nameservers: Vec<IpAddr>,
@@ -63,25 +63,12 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new() -> Config {
+    pub fn new() -> Self {
         Config {
-            nameservers: Vec::new(),
-            search: Vec::new(),
-            sortlist: Vec::new(),
-            debug: false,
             ndots: 1,
             timeout: 5,
             attempts: 2,
-            rotate: false,
-            no_check_names: false,
-            inet6: false,
-            ip6_bytestring: false,
-            ip6_dotint: false,
-            edns0: false,
-            single_request: false,
-            single_request_reopen: false,
-            no_tld_query: false,
-            use_vc: false,
+            ..Default::default()
         }
     }
     pub fn parse(buf: &[u8]) -> Result<Config, grammar::ParseError> {
