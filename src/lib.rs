@@ -71,7 +71,7 @@ impl Config {
             ..Default::default()
         }
     }
-    pub fn parse(buf: &[u8]) -> Result<Config, grammar::ParseError> {
-        grammar::parse(buf)
+    pub fn parse<T: AsRef<[u8]>>(buf: T) -> Result<Config, grammar::ParseError> {
+        grammar::parse(buf.as_ref())
     }
 }
