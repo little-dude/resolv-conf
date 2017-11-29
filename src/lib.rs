@@ -17,7 +17,7 @@ pub enum Network {
     V6(Ipv6Addr, Ipv6Addr),
 }
 
-use std::net::{Ipv4Addr, Ipv6Addr};
+use std::net::{Ipv4Addr, Ipv6Addr, IpAddr};
 
 /// Represent an IP address
 #[derive(Debug, Clone)]
@@ -26,6 +26,34 @@ pub enum Ip {
     V4(Ipv4Addr),
     /// Represent an IPv6 and its scope identifier, if any
     V6(Ipv6Addr, Option<String>),
+}
+
+impl Into<IpAddr> for Ip {
+    fn into(self) -> IpAddr {
+        match self {
+            Ip::V4(ip) => IpAddr::
+        }
+    }
+}
+impl From<Ipv6Addr> for Ip {
+    fn from(value: Ipv6Addr) -> Self {
+        Ip::V6(value, None)
+    }
+}
+
+impl From<Ipv4Addr> for Ip {
+    fn from(value: Ipv4Addr) -> Self {
+        Ip::V4(value)
+    }
+}
+
+impl From<IpAddr> for Ip {
+    fn from(value: IpAddr) -> Self {
+        match value {
+            IpAddr::V4(ip) => Ip::from(ip),
+            IpAddr::V6(ip) => Ip::from(ip),
+        }
+    }
 }
 
 /// Encompasses the nameserver configuration
