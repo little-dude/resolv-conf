@@ -8,8 +8,6 @@ extern crate quick_error;
 mod grammar;
 
 pub use grammar::ParseError;
-use std::net::IpAddr;
-use std::net::{Ipv4Addr, Ipv6Addr};
 
 /// A network, that is an IP address and the mask
 #[derive(Clone, Debug)]
@@ -19,13 +17,24 @@ pub enum Network {
     V6(Ipv6Addr, Ipv6Addr),
 }
 
+use std::net::{Ipv4Addr, Ipv6Addr};
+
+/// Represent an IP address
+#[derive(Debug, Clone)]
+pub enum Ip {
+    /// Represent an IPv4 address
+    V4(Ipv4Addr),
+    /// Represent an IPv6 and its scope identifier, if any
+    V6(Ipv6Addr, Option<String>),
+}
+
 /// Encompasses the nameserver configuration
 ///
 /// Currently the options and defaults match those of linux/glibc
 #[derive(Default, Clone, Debug)]
 pub struct Config {
     /// List of nameservers
-    pub nameservers: Vec<IpAddr>,
+    pub nameservers: Vec<Ip>,
     /// List of suffixes to append to name when it doesn't contain ndots
     pub search: Vec<String>,
     /// List of preferred addresses
